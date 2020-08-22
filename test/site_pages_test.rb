@@ -7,12 +7,16 @@ class PalindromeAppTest < Minitest::Test
     Sinatra::Application
   end
 
+  def setup
+    @base_title = "Learn Enough Ruby Sample App"
+  end
+
   def test_index
     get '/'
     assert last_response.ok?
     assert doc(last_response).at_css('h1')
-    assert_equal "Learn Enough Ruby Sample App | Home",
-                  doc(last_response).at_css('title').content
+    title_content = doc(last_response).at_css('title').content
+    assert_equal "#{@base_title} | Home", title_content
     assert doc(last_response).at_css('nav')
   end
 
@@ -20,15 +24,17 @@ class PalindromeAppTest < Minitest::Test
     get '/about'
     assert last_response.ok?
     assert doc(last_response).at_css('h1')
-    assert_equal "Learn Enough Ruby Sample App | About",
-                  doc(last_response).at_css('title').content
+    title_content = doc(last_response).at_css('title').content
+    assert_equal "#{@base_title} | About", title_content
+    assert doc(last_response).at_css('nav')
   end
 
   def test_palindrome
     get '/palindrome'
     assert last_response.ok?
     assert doc(last_response).at_css('h1')
-    assert_equal "Learn Enough Ruby Sample App | Palindrome Detector",
-                  doc(last_response).at_css('title').content
+    title_content = doc(last_response).at_css('title').content
+    assert_equal "#{@base_title} | Palindrome Detector", title_content
+    assert doc(last_response).at_css('nav')
   end
 end
